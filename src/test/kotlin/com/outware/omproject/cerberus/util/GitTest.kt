@@ -4,6 +4,7 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import com.outware.omproject.cerberus.CerberusPlugin
 import com.outware.omproject.cerberus.CerberusPluginExtension
+import com.outware.omproject.cerberus.data.GitLogProvider
 import org.junit.Before
 import org.junit.Test
 
@@ -11,13 +12,16 @@ class GitTest {
 
     lateinit var gitLogProvider: GitLogProvider
 
-    val mockThreeTicketLogLines = listOf(
+    val mockPopulatedLogLines = listOf(
+            "[TECH] Fake Tech Commit One",
             "[CER-8] Fake Commit One",
             "[CER-9] Fake Commit Two",
+            "[TECH] Fake Tech Commit Two",
             "[CER-10] Fake Commit Three"
     )
 
     val mockExpectedThreeTickets = listOf("CER-8", "CER-9", "CER-10")
+    val mockExpectedNoteworthyChanges = listOf("[TECH] Fake Tech Commit One", "[TECH] Fake Tech Commit Two")
     val mockExpectedEmptyResult = emptyList<String>()
 
     @Before
@@ -26,7 +30,11 @@ class GitTest {
         gitLogProvider = mock()
     }
 
-    private fun logLineTestTemplate(mockLogLines: List<String>, expectedResult: List<String>) {
+    /**
+     * Ticket Extraction
+     */
+
+    private fun ticketExtractionTestTemplate(mockLogLines: List<String>, expectedResult: List<String>) {
         whenever(gitLogProvider.getLogLines()).thenReturn(mockLogLines)
 
         val result = extractJiraTicketsFromCommitHistory(gitLogProvider)
@@ -38,26 +46,26 @@ class GitTest {
     fun emptyGitLog() {
         val emptyLogLines = emptyList<String>()
 
-        logLineTestTemplate(emptyLogLines, mockExpectedEmptyResult)
+        ticketExtractionTestTemplate(emptyLogLines, mockExpectedEmptyResult)
     }
 
     @Test
     fun nullTicketRegex() {
         CerberusPlugin.properties!!.ticketRegex = null
 
-        logLineTestTemplate(mockThreeTicketLogLines, mockExpectedEmptyResult)
+        ticketExtractionTestTemplate(mockPopulatedLogLines, mockExpectedEmptyResult)
     }
 
     @Test
     fun invalidTicketRegex() {
         CerberusPlugin.properties!!.ticketRegex = ""
 
-        logLineTestTemplate(mockThreeTicketLogLines, mockExpectedEmptyResult)
+        ticketExtractionTestTemplate(mockPopulatedLogLines, mockExpectedEmptyResult)
     }
 
     @Test
     fun standardThreeTicketExtraction() {
-        logLineTestTemplate(mockThreeTicketLogLines, mockExpectedThreeTickets)
+        ticketExtractionTestTemplate(mockPopulatedLogLines, mockExpectedThreeTickets)
     }
 
     @Test
@@ -68,7 +76,7 @@ class GitTest {
         )
         val expectedResult = listOf("CER-8", "CER-9", "CER-10")
 
-        logLineTestTemplate(mockLogLines, expectedResult)
+        ticketExtractionTestTemplate(mockLogLines, expectedResult)
     }
 
     @Test
@@ -78,7 +86,7 @@ class GitTest {
                 "Fake Commit Two"
         )
 
-        logLineTestTemplate(mockLogLines, mockExpectedEmptyResult)
+        ticketExtractionTestTemplate(mockLogLines, mockExpectedEmptyResult)
     }
 
     @Test
@@ -90,7 +98,7 @@ class GitTest {
         )
         val expectedResult = listOf("CER-8")
 
-        logLineTestTemplate(mockLogLines, expectedResult)
+        ticketExtractionTestTemplate(mockLogLines, expectedResult)
     }
 
     @Test
@@ -105,6 +113,39 @@ class GitTest {
         )
         val expectedResult = listOf("CER-10", "CER-11")
 
-        logLineTestTemplate(mockLogLines, expectedResult)
+        ticketExtractionTestTemplate(mockLogLines, expectedResult)
+    }
+
+    /**
+     * Noteworthy Commit Extraction
+     */
+
+    private fun changeInclusionTestTemplate(mockLogLines: List<String>, expectedResult: List<String>) {
+        whenever(gitLogProvider.getLogLines()).thenReturn(mockLogLines)
+
+        val result = fetchNoteworthyChangesFromCommitHistory(gitLogProvider)
+
+        assert(result == expectedResult)
+    }
+
+    @Test
+    fun emptyInclusionRegex() {
+        CerberusPlugin.properties!!.commitInclusionRegex = ""
+
+        changeInclusionTestTemplate(mockPopulatedLogLines, mockExpectedEmptyResult)
+    }
+
+    @Test
+    fun nullInclusionRegex() {
+        CerberusPlugin.properties!!.commitInclusionRegex = null
+
+        changeInclusionTestTemplate(mockPopulatedLogLines, mockExpectedEmptyResult)
+    }
+
+    @Test
+    fun commitInclusionFilter() {
+        CerberusPlugin.properties!!.commitInclusionRegex = ".*TECH.*"
+
+        changeInclusionTestTemplate(mockPopulatedLogLines, mockExpectedNoteworthyChanges)
     }
 }
