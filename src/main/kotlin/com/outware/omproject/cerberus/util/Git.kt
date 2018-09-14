@@ -42,7 +42,7 @@ private fun commitInclusionFilter(input: String): Boolean {
 }
 
 private fun ticketExtractionFolder(accumulator: MutableList<String>, input: String): MutableList<String> {
-    CerberusPlugin.properties?.ticketRegex?.let {
+    CerberusPlugin.properties?.ticketRegex.takeIf { it?.isNotEmpty() ?: false }?.let {
         val ticketMatcher = it.toPattern().matcher(input)
 
         while (ticketMatcher.find()) {
