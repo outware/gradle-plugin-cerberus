@@ -11,6 +11,15 @@ class GitTest {
 
     lateinit var gitLogProvider: GitLogProvider
 
+    val mockThreeTicketLogLines = listOf(
+            "[CER-8] Fake Commit One",
+            "[CER-9] Fake Commit Two",
+            "[CER-10] Fake Commit Three"
+    )
+
+    val mockExpectedThreeTickets = listOf("CER-8", "CER-9", "CER-10")
+    val mockExpectedEmptyResult = emptyList<String>()
+
     @Before
     fun beforeEach() {
         CerberusPlugin.properties = CerberusPluginExtension()
@@ -27,31 +36,37 @@ class GitTest {
 
     @Test
     fun emptyGitLog() {
-        val mockLogLines = emptyList<String>()
-        val expectedResult = emptyList<String>()
+        val emptyLogLines = emptyList<String>()
 
-        logLineTestTemplate(mockLogLines, expectedResult)
+        logLineTestTemplate(emptyLogLines, mockExpectedEmptyResult)
+    }
+
+    @Test
+    fun nullTicketRegex() {
+        CerberusPlugin.properties!!.ticketRegex = null
+
+        logLineTestTemplate(mockThreeTicketLogLines, mockExpectedEmptyResult)
+    }
+
+    @Test
+    fun invalidTicketRegex() {
+        CerberusPlugin.properties!!.ticketRegex = ""
+
+        logLineTestTemplate(mockThreeTicketLogLines, mockExpectedEmptyResult)
     }
 
     @Test
     fun standardThreeTicketExtraction() {
-        val mockLogLines = listOf(
-                "[CER-7] Fake Commit One",
-                "[CER-8] Fake Commit Two",
-                "[CER-9] Fake Commit Three"
-        )
-        val expectedResult = listOf("CER-7", "CER-8", "CER-9")
-
-        logLineTestTemplate(mockLogLines, expectedResult)
+        logLineTestTemplate(mockThreeTicketLogLines, mockExpectedThreeTickets)
     }
 
     @Test
     fun compoundThreeTicketExtraction() {
         val mockLogLines = listOf(
-                "[CER-7][CER-9] Fake Commit One",
-                "[CER-8] Fake Commit Two"
+                "[CER-8][CER-9] Fake Commit One",
+                "[CER-10] Fake Commit Two"
         )
-        val expectedResult = listOf("CER-7", "CER-9", "CER-8")
+        val expectedResult = listOf("CER-8", "CER-9", "CER-10")
 
         logLineTestTemplate(mockLogLines, expectedResult)
     }
@@ -62,9 +77,8 @@ class GitTest {
                 "Fake Commit One",
                 "Fake Commit Two"
         )
-        val expectedResult = emptyList<String>()
 
-        logLineTestTemplate(mockLogLines, expectedResult)
+        logLineTestTemplate(mockLogLines, mockExpectedEmptyResult)
     }
 
     @Test
@@ -80,30 +94,16 @@ class GitTest {
     }
 
     @Test
-    fun tryTicketExtractionWithNullPattern() {
-        CerberusPlugin.properties!!.ticketRegex = null
-
-        val mockLogLines = listOf(
-                "Fake Commit One",
-                "Fake Commit Two",
-                "[CER-8] Commit Three"
-        )
-        val expectedResult = emptyList<String>()
-
-        logLineTestTemplate(mockLogLines, expectedResult)
-    }
-
-    @Test
     fun commitExclusionFilter() {
         CerberusPlugin.properties!!.commitExclusionRegex = "^#.*"
 
         val mockLogLines = listOf(
-                "#[CER-7] Fake Commit One",
-                "#[CER-8] Fake Commit Two",
-                "[CER-9] Fake Commit Three",
-                "[CER-10] Fake Commit Four"
+                "#[CER-8] Fake Commit One",
+                "#[CER-9] Fake Commit Two",
+                "[CER-10] Fake Commit Three",
+                "[CER-11] Fake Commit Four"
         )
-        val expectedResult = listOf("CER-9", "CER-10")
+        val expectedResult = listOf("CER-10", "CER-11")
 
         logLineTestTemplate(mockLogLines, expectedResult)
     }
