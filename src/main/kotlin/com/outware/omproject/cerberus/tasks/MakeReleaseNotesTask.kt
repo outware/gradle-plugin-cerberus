@@ -1,9 +1,9 @@
 package com.outware.omproject.cerberus.tasks
 
 import com.outware.omproject.cerberus.CerberusPlugin
-import com.outware.omproject.cerberus.data.makeJiraEndpoint
 import com.outware.omproject.cerberus.util.fetchNoteworthyChangesFromCommitHistory
 import com.outware.omproject.cerberus.util.getBuildTickets
+import com.outware.omproject.cerberus.util.getJiraUrlFromTicket
 
 open class MakeReleaseNotesTask : NonEssentialTask() {
 
@@ -21,10 +21,6 @@ open class MakeReleaseNotesTask : NonEssentialTask() {
         val releaseNotes = makeReleaseNotes(changes, CerberusPlugin.properties?.buildUrl)
 
         CerberusPlugin.properties?.releaseNotes = releaseNotes
-    }
-
-    private fun getJiraUrlFromTicket(ticket: String): String {
-        return makeJiraEndpoint("/browse/$ticket")
     }
 
     private fun makeReleaseNotes(changes: List<String>, buildUrl: String?): String =

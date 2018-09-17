@@ -3,11 +3,16 @@ package com.outware.omproject.cerberus.util
 import com.google.gson.Gson
 import com.outware.omproject.cerberus.CerberusPlugin
 import com.outware.omproject.cerberus.data.JiraClient
+import com.outware.omproject.cerberus.data.makeJiraEndpoint
 import com.outware.omproject.cerberus.data.model.JiraIssue
 import com.outware.omproject.cerberus.data.model.JiraIssueQueryResponse
 import com.outware.omproject.cerberus.data.model.JiraSearchRequest
 import com.outware.omproject.cerberus.exceptions.HttpAuthenticationException
 import com.outware.omproject.cerberus.exceptions.GenericHttpException
+
+fun getJiraUrlFromTicket(ticket: String): String {
+    return makeJiraEndpoint("/browse/$ticket")
+}
 
 fun getBuildTickets(): List<JiraIssue> {
     val ticketsNumbers = extractJiraTicketsFromCommitHistory()
