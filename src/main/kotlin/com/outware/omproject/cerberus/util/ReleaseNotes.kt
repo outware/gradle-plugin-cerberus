@@ -1,18 +1,14 @@
 package com.outware.omproject.cerberus.util
 
 fun makeReleaseNotes(changes: List<String>, buildUrl: String?): String =
-        StringBuilder().apply {
-            append("### Changelog\n")
-
+        mutableListOf("### Changelog").apply {
             if (changes.isEmpty()) {
-                append("*No changes found.*\n")
+                add("*No changes found.*")
             } else {
-                changes.forEach {
-                    append("- $it\n")
-                }
+                addAll(changes.map { "- $it" })
             }
 
             buildUrl?.let {
-                append("\nBuilt by [Jenkins]($it)")
+                add("\nBuilt by [Jenkins]($it)")
             }
-        }.toString()
+        }.joinToString("\n")
