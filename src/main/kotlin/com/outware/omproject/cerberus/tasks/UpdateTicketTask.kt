@@ -18,8 +18,7 @@ open class UpdateTicketTask : NonEssentialTask() {
                 CerberusPlugin.properties?.hockeyAppUploadUrl)
 
         tickets.forEach {
-//            commentOnJiraTicket(it.key, ticketComment)
-            println(it.key)
+            commentOnJiraTicket(it.key, ticketComment)
         }
     }
 
