@@ -5,6 +5,7 @@ import com.outware.omproject.cerberus.data.JiraClient
 import com.outware.omproject.cerberus.data.model.JiraCommentRequest
 import com.outware.omproject.cerberus.exceptions.GenericHttpException
 import com.outware.omproject.cerberus.exceptions.HttpAuthenticationException
+import com.outware.omproject.cerberus.util.buildComment
 import com.outware.omproject.cerberus.util.getBuildTickets
 
 open class UpdateTicketTask : NonEssentialTask() {
@@ -12,7 +13,7 @@ open class UpdateTicketTask : NonEssentialTask() {
     override fun run() {
         val tickets = getBuildTickets()
 
-        val ticketComment = buildJiraComment(CerberusPlugin.properties?.buildNumber,
+        val ticketComment = buildComment(CerberusPlugin.properties?.buildNumber,
                 CerberusPlugin.properties?.buildUrl,
                 CerberusPlugin.properties?.hockeyAppShortVersion,
                 CerberusPlugin.properties?.hockeyAppUploadUrl)
@@ -20,29 +21,6 @@ open class UpdateTicketTask : NonEssentialTask() {
         tickets.forEach {
             commentOnJiraTicket(it.key, ticketComment)
         }
-    }
-
-    private fun buildJiraComment(buildNumber: String?, buildUrl: String?, versionName: String?, hockeyUrl: String?): String {
-        val comment = StringBuilder()
-
-        buildNumber?.let {
-            if (buildUrl.isNullOrBlank()) {
-                comment.append("Jenkins: Build #$it")
-            } else {
-                comment.append("Jenkins: [Build #$it|$buildUrl]")
-            }
-            comment.append("\n")
-        }
-
-        versionName?.let {
-            if (hockeyUrl.isNullOrBlank()) {
-                comment.append("HockeyApp: Version $it")
-            } else {
-                comment.append("HockeyApp: [Version $it|$hockeyUrl]")
-            }
-        }
-
-        return comment.toString()
     }
 
     private fun commentOnJiraTicket(ticket: String, message: String) {
