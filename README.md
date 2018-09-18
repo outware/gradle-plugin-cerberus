@@ -4,25 +4,23 @@ Konrad Biernacki, 2018
 
 ## Installation
 
-### buildSrc Plugin
+### As a buildSrc Plugin
 
 1. If you don't have one already, create a `buildSrc` folder in your target project root directory
-2. Copy this project into the `buildSrc` directory  
-*eg. `target_project/buildSrc/build.gradle`*
+2. Copy this project into the `buildSrc` directory (eg. `target_project/buildSrc/build.gradle`)
 
-### JAR Plugin
+### As a JAR Plugin
 
 1. Compile the plugin as a `.jar` file
 2. Add the `.jar` to your target project (eg. `target_project/libs/cerberus.jar`)
 3. Add the following to your target project's `build.gradle` file:
-
-```groovy
+    ```groovy
     buildscript {
         dependencies {
             classpath files('libs/cerberus.jar')
         }
     }
-```
+    ```
 
 ## Usage
 
@@ -56,7 +54,7 @@ Konrad Biernacki, 2018
     }
     ```
 
-## Tasks
+## Gradle Tasks
 
 Cerberus adds two tasks into your project classpath
 
@@ -75,4 +73,4 @@ Cerberus adds two tasks into your project classpath
 
 ## Configuration
 
-The plugin extension is documented in `CerberusPluginExtension.kt`
+The plugin extension available through the Gradle DSL is documented at `CerberusPluginExtension.kt`
