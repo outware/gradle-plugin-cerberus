@@ -41,8 +41,8 @@ HockeyApp: [Version 2.0-RC|https://hockey.url/app/d3adcaf3]
 
 ### As a buildSrc Plugin
 
-1. If you don't have one already, create a `buildSrc` folder in your target project root directory
-2. Copy this project into the `buildSrc` directory (eg. `target_project/buildSrc/build.gradle`)
+1. If you don't have one already, create a `buildSrc` folder in your target project's root directory
+2. Copy this project into the `buildSrc` directory (so the plugin `build.gradle` file would be found in `target_project/buildSrc/build.gradle`)
 
 ### As a JAR Plugin
 
@@ -59,7 +59,7 @@ HockeyApp: [Version 2.0-RC|https://hockey.url/app/d3adcaf3]
 
 ## Usage
 
-1. Add the plugin to your target project `build.gradle`
+1. Add the plugin to your target project's `build.gradle`
     ```groovy
     apply plugin: 'com.outware.omproject.cerberus'
     ```
@@ -91,11 +91,11 @@ HockeyApp: [Version 2.0-RC|https://hockey.url/app/d3adcaf3]
 
 ## Gradle Tasks
 
-Cerberus adds two tasks into your project classpath
+Cerberus adds the following tasks to your project classpath:
 
 `cerberus_makeReleaseNotes`
 - Generate release notes from all changes between the HEAD and a specified SHA-1 (`cerberus.lastSuccessfulCommit`)
-- Place those changes into the plugin extension at `cerberus.releaseNotes`
+- Load those changes into the plugin extension at `cerberus.releaseNotes` as a markdown formatted string
 
 `cerberus_updateTicket`
 - Comment on any identified Jira tickets with:
