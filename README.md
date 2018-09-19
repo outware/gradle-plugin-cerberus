@@ -138,4 +138,4 @@ Some configuration parameters have default values
 |----------------------|-----------------|------------------------------------------------------------------------------------------------------|
 | ticketRegex          | `"[A-Z]+-\\d+"` | Regex pattern to match tickets against. Default matches `ABC-123`                                    |
 | gitLogPrettyFormat   | `"%s"`          | Commit information to match against, and include in release notes if it matches `includeTicketRegex` |
-| disableJiraSSLVerify | `false`         | Verify a SSL connection attempt is valid before connecting                                           |
+| disableJiraSSLVerify | `false`         | Verify an SSL connection attempt is valid before connecting                                          |
