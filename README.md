@@ -112,14 +112,14 @@ The plugin extension available through the Gradle DSL is documented at `Cerberus
 
 Some configuration parameters are populated from environment variables
 
-| Parameter            | Environment Variable             |
-|----------------------|----------------------------------|
-| jiraDomain           | `CI_USER_JIRA_URL`               |
-| jiraUsername         | `CI_USER_JIRA_CREDENTIALS_USR`   |
-| jiraPassword         | `CI_USER_JIRA_CREDENTIALS_PSW`   |
-| lastSuccessfulCommit | `GIT_PREVIOUS_SUCCESSFUL_COMMIT` |
-| buildUrl             | `BUILD_URL`                      |
-| buildNumber          | `BUILD_NUMBER`                   |
+| Parameter            | Environment Variable             | Description                                                |
+|----------------------|----------------------------------|------------------------------------------------------------|
+| jiraDomain           | `CI_USER_JIRA_URL`               | URL to Jira instance                                       |
+| jiraUsername         | `CI_USER_JIRA_CREDENTIALS_USR`   | Username for Jira instance                                 |
+| jiraPassword         | `CI_USER_JIRA_CREDENTIALS_PSW`   | Password for Jira instance                                 |
+| lastSuccessfulCommit | `GIT_PREVIOUS_SUCCESSFUL_COMMIT` | The SHA-1 to use as the root commit when comparing to HEAD |
+| buildUrl             | `BUILD_URL`                      | The URL to the current build information                   |
+| buildNumber          | `BUILD_NUMBER`                   | The current build number                                   |
 
 If additional (or alternate) environment variables need to be used, then configure them in the plugin DSL block like so:
 
@@ -134,8 +134,8 @@ cerberus {
 
 Some configuration parameters have default values 
 
-| Parameter            | Default Value   |
-|----------------------|-----------------|
-| ticketRegex          | `"[A-Z]+-\\d+"` |
-| gitLogPrettyFormat   | `"%s"`          |
-| disableJiraSSLVerify | `false`         |
+| Parameter            | Default Value   | Description                                                                                          |
+|----------------------|-----------------|------------------------------------------------------------------------------------------------------|
+| ticketRegex          | `"[A-Z]+-\\d+"` | Regex pattern to match tickets against. Default matches `ABC-123`                                    |
+| gitLogPrettyFormat   | `"%s"`          | Commit information to match against, and include in release notes if it matches `includeTicketRegex` |
+| disableJiraSSLVerify | `false`         | Verify a SSL connection attempt is valid before connecting                                           |
