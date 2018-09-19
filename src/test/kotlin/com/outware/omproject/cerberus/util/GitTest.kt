@@ -148,4 +148,20 @@ class GitTest {
 
         changeInclusionTestTemplate(mockPopulatedLogLines, mockExpectedNoteworthyChanges)
     }
+
+    @Test
+    fun commitInclusionAndExclusionFilter() {
+        CerberusPlugin.properties!!.commitInclusionRegex = ".*TECH.*"
+        CerberusPlugin.properties!!.commitExclusionRegex = "^#.*"
+
+        val mockLogLines = listOf(
+                "#[CER-8] Fake Commit One",
+                "#[TECH] Fake Commit Two",
+                "[TECH] Fake Commit Three",
+                "[CER-9] Fake Commit Four"
+        )
+        val expectedResult = listOf("[TECH] Fake Commit Three")
+
+        changeInclusionTestTemplate(mockLogLines, expectedResult)
+    }
 }
