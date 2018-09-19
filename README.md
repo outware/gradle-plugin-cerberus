@@ -109,3 +109,35 @@ Cerberus adds the following tasks to your project classpath:
 ## Configuration
 
 The plugin extension available through the Gradle DSL is documented at `CerberusPluginExtension.kt`
+
+### Environment Variables
+
+Some configuration parameters are populated from environment variables
+
+| Parameter            | Environment Variable             |
+|----------------------|----------------------------------|
+| jiraDomain           | `CI_USER_JIRA_URL`               |
+| jiraUsername         | `CI_USER_JIRA_CREDENTIALS_USR`   |
+| jiraPassword         | `CI_USER_JIRA_CREDENTIALS_PSW`   |
+| lastSuccessfulCommit | `GIT_PREVIOUS_SUCCESSFUL_COMMIT` |
+| buildUrl             | `BUILD_URL`                      |
+| buildNumber          | `BUILD_NUMBER`                   |
+
+If additional (or alternate) environment variables need to be used, then configure them in the plugin DSL block like so:
+
+```groovy
+cerberus {
+    jiraDomain = System.env.OTHER_JIRA_DOMAIN
+    ...
+}
+```
+
+### Default Values
+
+Some configuration parameters have default values 
+
+| Parameter            | Default Value   |
+|----------------------|-----------------|
+| ticketRegex          | `"[A-Z]+-\\d+"` |
+| gitLogPrettyFormat   | `"%s"`          |
+| disableJiraSSLVerify | `false`         |
