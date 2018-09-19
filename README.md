@@ -18,8 +18,6 @@ Using all of Cerberus' features, you can use your commit history -
  | | | 
  | * | [CER-7] Add feature
  | / |
- |   /
- | /
 ```
 
 to generate release notes using data from Jira and your build -
