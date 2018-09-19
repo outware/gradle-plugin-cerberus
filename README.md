@@ -2,6 +2,41 @@
 
 Konrad Biernacki, 2018
 
+## About
+
+Cerberus is a gradle plugin for extracting Jira issues from commit messages and sharing information on its respective Jenkins job and HockeyApp upload. 
+It can generate release notes for use by HockeyApp, and produce Jira comments with Jenkins build and HockeyApp artefact information.
+
+Using all of Cerberus' features, you can use your commit history -
+``` 
+ * HEAD -> Develop
+ | \ 
+ *   \
+ | \ |
+ | | * [CER-12] Address PR Feedback
+ | | * [CER-12] Fix bug
+ | | | 
+ | * | [CER-7] Add feature
+ | / |
+ |   /
+ | /
+```
+
+to generate release notes using data from Jira and your build -
+```
+### Changelog
+- [CER-12] UI Bug
+- [CER-7] Minor Feature
+
+Built by [Jenkins](https://jenkins.url/build/451)
+```
+
+and comment on your Jira tickets with build and artefact information
+```
+Jenkins: [Build #451|https://jenkins.url/build/451]
+HockeyApp: [Version 2.0-RC|https://hockey.url/app/d3adcaf3]
+```
+
 ## Installation
 
 ### As a buildSrc Plugin
