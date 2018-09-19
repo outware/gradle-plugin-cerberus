@@ -37,7 +37,7 @@ class GitTest {
     private fun ticketExtractionTestTemplate(mockLogLines: List<String>, expectedResult: List<String>) {
         whenever(gitLogProvider.getLogLines()).thenReturn(mockLogLines)
 
-        val result = extractJiraTicketsFromCommitHistory(gitLogProvider)
+        val result = getTicketsFromCommitHistory(gitLogProvider)
 
         assert(result == expectedResult)
     }
@@ -123,7 +123,7 @@ class GitTest {
     private fun changeInclusionTestTemplate(mockLogLines: List<String>, expectedResult: List<String>) {
         whenever(gitLogProvider.getLogLines()).thenReturn(mockLogLines)
 
-        val result = fetchNoteworthyChangesFromCommitHistory(gitLogProvider)
+        val result = getChangesFromCommitHistory(gitLogProvider)
 
         assert(result == expectedResult)
     }

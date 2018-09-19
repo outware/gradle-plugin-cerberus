@@ -3,20 +3,16 @@ package com.outware.omproject.cerberus.util
 import com.outware.omproject.cerberus.CerberusPlugin
 import com.outware.omproject.cerberus.data.GitLogProvider
 
-fun extractJiraTicketsFromCommitHistory(logProvider: GitLogProvider = GitLogProvider()): List<String> {
-    val subjectLines = logProvider.getLogLines()
+fun getTicketsFromCommitHistory(logProvider: GitLogProvider = GitLogProvider()): List<String> =
+        getCommitsPostExclusion(logProvider)
+                .fold(mutableListOf(), ::ticketExtractionFolder)
+                .distinct()
 
-    val extractedTickets = subjectLines.filter(::commitExclusionFilter)
-            .fold(mutableListOf(), ::ticketExtractionFolder)
+fun getChangesFromCommitHistory(logProvider: GitLogProvider = GitLogProvider()): List<String> =
+        getCommitsPostExclusion(logProvider).filter(::commitInclusionFilter)
 
-    return extractedTickets.distinct()
-}
-
-fun fetchNoteworthyChangesFromCommitHistory(logProvider: GitLogProvider = GitLogProvider()): List<String> {
-    val subjectLines = logProvider.getLogLines()
-
-    return subjectLines.filter(::commitInclusionFilter)
-}
+private fun getCommitsPostExclusion(logProvider: GitLogProvider): List<String> =
+        logProvider.getLogLines().filter(::commitExclusionFilter)
 
 private fun commitExclusionFilter(input: String): Boolean {
     CerberusPlugin.properties?.commitExclusionRegex?.let {

@@ -14,7 +14,7 @@ fun getJiraUrlFromTicket(ticket: String): String {
 }
 
 fun getBuildTickets(): List<JiraIssue> {
-    val ticketsNumbers = extractJiraTicketsFromCommitHistory()
+    val ticketsNumbers = getTicketsFromCommitHistory()
     return fetchJiraTickets(ticketsNumbers)
 }
 
