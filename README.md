@@ -134,8 +134,8 @@ cerberus {
 
 Some configuration parameters have default values 
 
-| Parameter            | Default Value   | Description                                                                                          |
-|----------------------|-----------------|------------------------------------------------------------------------------------------------------|
-| ticketRegex          | `"[A-Z]+-\\d+"` | Regex pattern to match tickets against. Default matches `ABC-123`                                    |
-| gitLogPrettyFormat   | `"%s"`          | Commit information to match against, and include in release notes if it matches `includeTicketRegex` |
-| disableJiraSSLVerify | `false`         | Verify an SSL connection attempt is valid before connecting                                          |
+| Parameter               | Default Value   | Description                                                                                                |
+|-------------------------|-----------------|------------------------------------------------------------------------------------------------------------|
+| ticketExtractionPattern | `"[A-Z]+-\\d+"` | Regex pattern to match tickets against. Default matches `ABC-123`                                          |
+| gitLogPrettyFormat      | `"%s"`          | Commit information to match against, and include in release notes if it matches `commitPassthroughPattern` |
+| disableJiraSSLVerify    | `false`         | Verify an SSL connection attempt is valid before connecting                                                |
