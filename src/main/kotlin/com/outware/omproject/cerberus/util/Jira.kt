@@ -8,6 +8,7 @@ import com.outware.omproject.cerberus.data.model.JiraIssueQueryResponse
 import com.outware.omproject.cerberus.data.model.JiraSearchRequest
 import com.outware.omproject.cerberus.exceptions.GenericHttpException
 import com.outware.omproject.cerberus.exceptions.HttpAuthenticationException
+import com.outware.omproject.cerberus.exceptions.JsonDeserialisationException
 
 fun getJiraUrlFromTicket(ticket: String): String {
     return makeJiraRequestAddress("/browse/$ticket")
@@ -28,7 +29,13 @@ fun getJiraTicketDetails(tickets: List<String>): List<JiraIssue> {
     val responseCode = client.post(JiraSearchRequest("key IN ($ticketCsv)", "false"))
 
     return when (responseCode) {
-        200 -> Gson().fromJson(client.responseReader, JiraIssueQueryResponse::class.java).issues
+        200 -> {
+            try {
+                Gson().fromJson(client.responseReader, JiraIssueQueryResponse::class.java).issues
+            } catch (t: Throwable) {
+                throw JsonDeserialisationException("Failed to deserialise Jira query response with error: ${t.message}")
+            }
+        }
         in (400..499) -> {
             throw HttpAuthenticationException("Authentication failed. HTTP response code: $responseCode")
         }
