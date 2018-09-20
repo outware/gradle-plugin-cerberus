@@ -51,14 +51,14 @@ class GitTest {
 
     @Test
     fun nullTicketRegex() {
-        CerberusPlugin.properties!!.ticketRegex = null
+        CerberusPlugin.properties!!.ticketExtractionPattern = null
 
         ticketExtractionTestTemplate(mockPopulatedLogLines, mockExpectedEmptyResult)
     }
 
     @Test
     fun invalidTicketRegex() {
-        CerberusPlugin.properties!!.ticketRegex = ""
+        CerberusPlugin.properties!!.ticketExtractionPattern = ""
 
         ticketExtractionTestTemplate(mockPopulatedLogLines, mockExpectedEmptyResult)
     }
@@ -103,7 +103,7 @@ class GitTest {
 
     @Test
     fun commitExclusionFilter() {
-        CerberusPlugin.properties!!.commitExclusionRegex = "^#.*"
+        CerberusPlugin.properties!!.commitIgnorePattern = "^#.*"
 
         val mockLogLines = listOf(
                 "#[CER-8] Fake Commit One",
@@ -130,29 +130,29 @@ class GitTest {
 
     @Test
     fun emptyInclusionRegex() {
-        CerberusPlugin.properties!!.commitInclusionRegex = ""
+        CerberusPlugin.properties!!.commitPassthroughPattern = ""
 
         changeInclusionTestTemplate(mockPopulatedLogLines, mockExpectedEmptyResult)
     }
 
     @Test
     fun nullInclusionRegex() {
-        CerberusPlugin.properties!!.commitInclusionRegex = null
+        CerberusPlugin.properties!!.commitPassthroughPattern = null
 
         changeInclusionTestTemplate(mockPopulatedLogLines, mockExpectedEmptyResult)
     }
 
     @Test
     fun commitInclusionFilter() {
-        CerberusPlugin.properties!!.commitInclusionRegex = ".*TECH.*"
+        CerberusPlugin.properties!!.commitPassthroughPattern = ".*TECH.*"
 
         changeInclusionTestTemplate(mockPopulatedLogLines, mockExpectedNoteworthyChanges)
     }
 
     @Test
     fun commitInclusionAndExclusionFilter() {
-        CerberusPlugin.properties!!.commitInclusionRegex = ".*TECH.*"
-        CerberusPlugin.properties!!.commitExclusionRegex = "^#.*"
+        CerberusPlugin.properties!!.commitPassthroughPattern = ".*TECH.*"
+        CerberusPlugin.properties!!.commitIgnorePattern = "^#.*"
 
         val mockLogLines = listOf(
                 "#[CER-8] Fake Commit One",
