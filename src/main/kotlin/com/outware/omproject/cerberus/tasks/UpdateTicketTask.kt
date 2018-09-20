@@ -5,8 +5,8 @@ import com.outware.omproject.cerberus.data.JiraClient
 import com.outware.omproject.cerberus.data.model.JiraCommentRequest
 import com.outware.omproject.cerberus.exceptions.GenericHttpException
 import com.outware.omproject.cerberus.exceptions.HttpAuthenticationException
-import com.outware.omproject.cerberus.util.makeComment
 import com.outware.omproject.cerberus.util.getJiraTickets
+import com.outware.omproject.cerberus.util.makeComment
 
 open class UpdateTicketTask : NonEssentialTask() {
 

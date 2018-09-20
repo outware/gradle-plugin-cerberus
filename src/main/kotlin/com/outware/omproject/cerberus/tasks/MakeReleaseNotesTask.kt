@@ -1,9 +1,9 @@
 package com.outware.omproject.cerberus.tasks
 
 import com.outware.omproject.cerberus.CerberusPlugin
-import com.outware.omproject.cerberus.util.getPassthroughChangesFromCommitHistory
 import com.outware.omproject.cerberus.util.getJiraTickets
 import com.outware.omproject.cerberus.util.getJiraUrlFromTicket
+import com.outware.omproject.cerberus.util.getPassthroughChangesFromCommitHistory
 import com.outware.omproject.cerberus.util.makeReleaseNotes
 
 open class MakeReleaseNotesTask : NonEssentialTask() {
