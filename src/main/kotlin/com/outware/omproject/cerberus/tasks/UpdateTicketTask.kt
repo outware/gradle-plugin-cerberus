@@ -31,10 +31,10 @@ open class UpdateTicketTask : NonEssentialTask() {
         when (responseCode) {
             201 -> println("Successfully commented on $ticket")
             in (400..499) -> {
-                throw HttpAuthenticationException("Authentication failed. HTTP response code: ${client.responseCode}")
+                throw HttpAuthenticationException("Authentication failed. HTTP response code: $responseCode")
             }
             else -> {
-                throw GenericHttpException("Comment on $ticket failed. HTTP response code: ${client.responseCode}")
+                throw GenericHttpException("Comment on $ticket failed. HTTP response code: $responseCode")
             }
         }
     }

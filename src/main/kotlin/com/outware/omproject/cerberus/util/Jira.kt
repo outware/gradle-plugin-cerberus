@@ -30,10 +30,10 @@ fun getJiraTicketDetails(tickets: List<String>): List<JiraIssue> {
     return when (responseCode) {
         200 -> Gson().fromJson(client.responseReader, JiraIssueQueryResponse::class.java).issues
         in (400..499) -> {
-            throw HttpAuthenticationException("Authentication failed. HTTP response code: ${client.responseCode}")
+            throw HttpAuthenticationException("Authentication failed. HTTP response code: $responseCode")
         }
         else -> {
-            throw GenericHttpException("Querying for ($ticketCsv) failed. HTTP response code: ${client.responseCode}")
+            throw GenericHttpException("Querying for ($ticketCsv) failed. HTTP response code: $responseCode")
         }
     }
 }
