@@ -5,13 +5,13 @@ import com.outware.omproject.cerberus.tasks.UpdateTicketTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
+private const val PROPERTY_EXTENSION_NAME = "cerberus"
+
+private const val RELEASE_NOTES_TASK_NAME = "cerberus_makeReleaseNotes"
+private const val UPDATE_TICKET_TASK_NAME = "cerberus_updateTicket"
+
 open class CerberusPlugin : Plugin<Project> {
     companion object {
-        private const val PROPERTY_EXTENSION_NAME = "cerberus"
-
-        private const val RELEASE_NOTES_TASK_NAME = "cerberus_makeReleaseNotes"
-        private const val UPDATE_TICKET_TASK_NAME = "cerberus_updateTicket"
-
         var properties: CerberusPluginExtension? = null
     }
 
