@@ -12,7 +12,7 @@ class CommentTest {
 
     @Test
     fun withJenkinsAndHockeyLabelsAndUrls() {
-        val result = buildComment(mockJenkinsBuildNumber, mockJenkinsBuildUrl, mockHockeyArtefactVersionName, mockHockeyArtefactUrl)
+        val result = makeComment(mockJenkinsBuildNumber, mockJenkinsBuildUrl, mockHockeyArtefactVersionName, mockHockeyArtefactUrl)
 
         val expectedResult = """
             Jenkins: [Build #451|https://build.url]
@@ -24,7 +24,7 @@ class CommentTest {
 
     @Test
     fun withJenkinsAndHockeyLabels() {
-        val result = buildComment(buildNumber = mockJenkinsBuildNumber, versionName = mockHockeyArtefactVersionName)
+        val result = makeComment(buildNumber = mockJenkinsBuildNumber, versionName = mockHockeyArtefactVersionName)
 
         val expectedResult = """
             Jenkins: Build #451
@@ -36,7 +36,7 @@ class CommentTest {
 
     @Test
     fun withJenkinsLabelAndUrl() {
-        val result = buildComment(buildNumber = mockJenkinsBuildNumber, buildUrl = mockJenkinsBuildUrl)
+        val result = makeComment(buildNumber = mockJenkinsBuildNumber, buildUrl = mockJenkinsBuildUrl)
 
         val expectedResult = """
             Jenkins: [Build #451|https://build.url]
@@ -47,7 +47,7 @@ class CommentTest {
 
     @Test
     fun withJenkinsLabel() {
-        val result = buildComment(buildNumber = mockJenkinsBuildNumber)
+        val result = makeComment(buildNumber = mockJenkinsBuildNumber)
 
         val expectedResult = """
             Jenkins: Build #451
@@ -58,7 +58,7 @@ class CommentTest {
 
     @Test
     fun withHockeyLabelAndUrl() {
-        val result = buildComment(versionName = mockHockeyArtefactVersionName, hockeyUrl = mockHockeyArtefactUrl)
+        val result = makeComment(versionName = mockHockeyArtefactVersionName, hockeyUrl = mockHockeyArtefactUrl)
 
         val expectedResult = """
             HockeyApp: [Version 2.0-RC|https://hockey.url]
@@ -69,7 +69,7 @@ class CommentTest {
 
     @Test
     fun withHockeyLabel() {
-        val result = buildComment(versionName = mockHockeyArtefactVersionName)
+        val result = makeComment(versionName = mockHockeyArtefactVersionName)
 
         val expectedResult = """
             HockeyApp: Version 2.0-RC

@@ -10,7 +10,7 @@ class ClientUtilsTest {
     val mockDomain = "https://jira.mock.url"
     val mockEndpoint = "endpoint"
 
-    val mockExpectedJiraEndpoint = "https://jira.mock.url/endpoint"
+    val mockExpectedJiraAddress = "https://jira.mock.url/endpoint"
 
     @Before
     fun beforeEach() {
@@ -21,33 +21,33 @@ class ClientUtilsTest {
     fun nullDomain() {
         CerberusPlugin.properties!!.jiraDomain = null
 
-        makeJiraEndpoint(mockEndpoint)
+        makeJiraRequestAddress(mockEndpoint)
     }
 
     @Test
     fun domainTrailingSlash() {
         CerberusPlugin.properties!!.jiraDomain = "$mockDomain/"
 
-        val result = makeJiraEndpoint(mockEndpoint)
+        val result = makeJiraRequestAddress(mockEndpoint)
 
-        assert(result == mockExpectedJiraEndpoint)
+        assert(result == mockExpectedJiraAddress)
     }
 
     @Test
     fun domainNoTrailingSlash() {
         CerberusPlugin.properties!!.jiraDomain = mockDomain
 
-        val result = makeJiraEndpoint(mockEndpoint)
+        val result = makeJiraRequestAddress(mockEndpoint)
 
-        assert(result == mockExpectedJiraEndpoint)
+        assert(result == mockExpectedJiraAddress)
     }
 
     @Test
     fun endpointLeadingSlash() {
         CerberusPlugin.properties!!.jiraDomain = mockDomain
 
-        val result = makeJiraEndpoint("/$mockEndpoint")
+        val result = makeJiraRequestAddress("/$mockEndpoint")
 
-        assert(result == mockExpectedJiraEndpoint)
+        assert(result == mockExpectedJiraAddress)
     }
 }

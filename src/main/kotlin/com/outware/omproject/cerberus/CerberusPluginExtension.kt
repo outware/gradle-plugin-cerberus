@@ -76,7 +76,7 @@ open class CerberusPluginExtension {
      *
      *  @default `[A-Z]+-\d+`
      */
-    var ticketRegex: String? = "[A-Z]+-\\d+"
+    var ticketExtractionPattern: String? = "[A-Z]+-\\d+"
 
     /**
      *  A regular expression to filter commits from ticket extraction.
@@ -84,7 +84,7 @@ open class CerberusPluginExtension {
      *
      *  @default `null`
      */
-    var commitExclusionRegex: String? = null
+    var commitIgnorePattern: String? = null
 
     /**
      *  A regular expression to include matching commits in the changelog without a ticket.
@@ -92,7 +92,7 @@ open class CerberusPluginExtension {
      *
      *  @default `null`
      */
-    var commitInclusionRegex: String? = null
+    var commitPassthroughPattern: String? = null
 
     /**
      * The format git commits should be expressed in to extract tickets and changes from.

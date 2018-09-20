@@ -37,7 +37,7 @@ class GitTest {
     private fun ticketExtractionTestTemplate(mockLogLines: List<String>, expectedResult: List<String>) {
         whenever(gitLogProvider.getLogLines()).thenReturn(mockLogLines)
 
-        val result = extractJiraTicketsFromCommitHistory(gitLogProvider)
+        val result = getTicketsFromCommitHistory(gitLogProvider)
 
         assert(result == expectedResult)
     }
@@ -51,14 +51,14 @@ class GitTest {
 
     @Test
     fun nullTicketRegex() {
-        CerberusPlugin.properties!!.ticketRegex = null
+        CerberusPlugin.properties!!.ticketExtractionPattern = null
 
         ticketExtractionTestTemplate(mockPopulatedLogLines, mockExpectedEmptyResult)
     }
 
     @Test
     fun invalidTicketRegex() {
-        CerberusPlugin.properties!!.ticketRegex = ""
+        CerberusPlugin.properties!!.ticketExtractionPattern = ""
 
         ticketExtractionTestTemplate(mockPopulatedLogLines, mockExpectedEmptyResult)
     }
@@ -103,7 +103,7 @@ class GitTest {
 
     @Test
     fun commitExclusionFilter() {
-        CerberusPlugin.properties!!.commitExclusionRegex = "^#.*"
+        CerberusPlugin.properties!!.commitIgnorePattern = "^#.*"
 
         val mockLogLines = listOf(
                 "#[CER-8] Fake Commit One",
@@ -123,29 +123,45 @@ class GitTest {
     private fun changeInclusionTestTemplate(mockLogLines: List<String>, expectedResult: List<String>) {
         whenever(gitLogProvider.getLogLines()).thenReturn(mockLogLines)
 
-        val result = fetchNoteworthyChangesFromCommitHistory(gitLogProvider)
+        val result = getPassthroughChangesFromCommitHistory(gitLogProvider)
 
         assert(result == expectedResult)
     }
 
     @Test
     fun emptyInclusionRegex() {
-        CerberusPlugin.properties!!.commitInclusionRegex = ""
+        CerberusPlugin.properties!!.commitPassthroughPattern = ""
 
         changeInclusionTestTemplate(mockPopulatedLogLines, mockExpectedEmptyResult)
     }
 
     @Test
     fun nullInclusionRegex() {
-        CerberusPlugin.properties!!.commitInclusionRegex = null
+        CerberusPlugin.properties!!.commitPassthroughPattern = null
 
         changeInclusionTestTemplate(mockPopulatedLogLines, mockExpectedEmptyResult)
     }
 
     @Test
     fun commitInclusionFilter() {
-        CerberusPlugin.properties!!.commitInclusionRegex = ".*TECH.*"
+        CerberusPlugin.properties!!.commitPassthroughPattern = ".*TECH.*"
 
         changeInclusionTestTemplate(mockPopulatedLogLines, mockExpectedNoteworthyChanges)
+    }
+
+    @Test
+    fun commitInclusionAndExclusionFilter() {
+        CerberusPlugin.properties!!.commitPassthroughPattern = ".*TECH.*"
+        CerberusPlugin.properties!!.commitIgnorePattern = "^#.*"
+
+        val mockLogLines = listOf(
+                "#[CER-8] Fake Commit One",
+                "#[TECH] Fake Commit Two",
+                "[TECH] Fake Commit Three",
+                "[CER-9] Fake Commit Four"
+        )
+        val expectedResult = listOf("[TECH] Fake Commit Three")
+
+        changeInclusionTestTemplate(mockLogLines, expectedResult)
     }
 }

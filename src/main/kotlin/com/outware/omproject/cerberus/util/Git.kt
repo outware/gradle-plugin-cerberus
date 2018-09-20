@@ -3,37 +3,33 @@ package com.outware.omproject.cerberus.util
 import com.outware.omproject.cerberus.CerberusPlugin
 import com.outware.omproject.cerberus.data.GitLogProvider
 
-fun extractJiraTicketsFromCommitHistory(logProvider: GitLogProvider = GitLogProvider()): List<String> {
-    val subjectLines = logProvider.getLogLines()
+fun getTicketsFromCommitHistory(logProvider: GitLogProvider = GitLogProvider()): List<String> =
+        getCommitsPostExclusion(logProvider)
+                .fold(mutableListOf(), ::ticketExtractionFolder)
+                .distinct()
 
-    val extractedTickets = subjectLines.filter(::commitExclusionFilter)
-            .fold(mutableListOf(), ::ticketExtractionFolder)
+fun getPassthroughChangesFromCommitHistory(logProvider: GitLogProvider = GitLogProvider()): List<String> =
+        getCommitsPostExclusion(logProvider).filter(::commitInclusionFilter)
 
-    return extractedTickets.distinct()
-}
-
-fun fetchNoteworthyChangesFromCommitHistory(logProvider: GitLogProvider = GitLogProvider()): List<String> {
-    val subjectLines = logProvider.getLogLines()
-
-    return subjectLines.filter(::commitInclusionFilter)
-}
+private fun getCommitsPostExclusion(logProvider: GitLogProvider): List<String> =
+        logProvider.getLogLines().filter(::commitExclusionFilter)
 
 private fun commitExclusionFilter(input: String): Boolean {
-    CerberusPlugin.properties?.commitExclusionRegex?.let {
+    CerberusPlugin.properties?.commitIgnorePattern?.let {
         return input.matches(it.toRegex()).not()
     }
     return true
 }
 
 private fun commitInclusionFilter(input: String): Boolean {
-    CerberusPlugin.properties?.commitInclusionRegex?.let {
+    CerberusPlugin.properties?.commitPassthroughPattern?.let {
         return input.matches(it.toRegex())
     }
     return false
 }
 
 private fun ticketExtractionFolder(accumulator: MutableList<String>, input: String): MutableList<String> {
-    CerberusPlugin.properties?.ticketRegex.takeIf { it?.isNotEmpty() ?: false }?.let {
+    CerberusPlugin.properties?.ticketExtractionPattern.takeIf { it?.isNotEmpty() ?: false }?.let {
         val ticketMatcher = it.toPattern().matcher(input)
 
         while (ticketMatcher.find()) {
