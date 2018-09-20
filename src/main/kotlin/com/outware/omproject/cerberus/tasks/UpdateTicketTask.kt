@@ -5,15 +5,15 @@ import com.outware.omproject.cerberus.data.JiraClient
 import com.outware.omproject.cerberus.data.model.JiraCommentRequest
 import com.outware.omproject.cerberus.exceptions.GenericHttpException
 import com.outware.omproject.cerberus.exceptions.HttpAuthenticationException
-import com.outware.omproject.cerberus.util.buildComment
-import com.outware.omproject.cerberus.util.getBuildTickets
+import com.outware.omproject.cerberus.util.makeComment
+import com.outware.omproject.cerberus.util.getJiraTickets
 
 open class UpdateTicketTask : NonEssentialTask() {
 
     override fun run() {
-        val tickets = getBuildTickets()
+        val tickets = getJiraTickets()
 
-        val ticketComment = buildComment(CerberusPlugin.properties?.buildNumber,
+        val ticketComment = makeComment(CerberusPlugin.properties?.buildNumber,
                 CerberusPlugin.properties?.buildUrl,
                 CerberusPlugin.properties?.hockeyAppShortVersion,
                 CerberusPlugin.properties?.hockeyAppUploadUrl)

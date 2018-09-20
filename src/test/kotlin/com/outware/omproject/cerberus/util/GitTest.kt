@@ -123,7 +123,7 @@ class GitTest {
     private fun changeInclusionTestTemplate(mockLogLines: List<String>, expectedResult: List<String>) {
         whenever(gitLogProvider.getLogLines()).thenReturn(mockLogLines)
 
-        val result = getChangesFromCommitHistory(gitLogProvider)
+        val result = getPassthroughChangesFromCommitHistory(gitLogProvider)
 
         assert(result == expectedResult)
     }

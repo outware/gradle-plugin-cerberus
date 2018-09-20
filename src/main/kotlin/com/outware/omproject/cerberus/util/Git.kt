@@ -8,7 +8,7 @@ fun getTicketsFromCommitHistory(logProvider: GitLogProvider = GitLogProvider()):
                 .fold(mutableListOf(), ::ticketExtractionFolder)
                 .distinct()
 
-fun getChangesFromCommitHistory(logProvider: GitLogProvider = GitLogProvider()): List<String> =
+fun getPassthroughChangesFromCommitHistory(logProvider: GitLogProvider = GitLogProvider()): List<String> =
         getCommitsPostExclusion(logProvider).filter(::commitInclusionFilter)
 
 private fun getCommitsPostExclusion(logProvider: GitLogProvider): List<String> =

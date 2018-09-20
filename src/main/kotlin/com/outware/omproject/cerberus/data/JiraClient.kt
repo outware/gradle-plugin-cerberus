@@ -9,7 +9,7 @@ import javax.net.ssl.HttpsURLConnection
 import javax.net.ssl.SSLContext
 
 class JiraClient(url: String, trustAllCerts: Boolean = false) {
-    var connection: HttpsURLConnection = URL(makeJiraEndpoint(url)).openConnection() as HttpsURLConnection
+    var connection: HttpsURLConnection = URL(makeJiraRequestAddress(url)).openConnection() as HttpsURLConnection
 
     init {
         if (CerberusPlugin.properties?.disableJiraSSLVerify == true || trustAllCerts) {
