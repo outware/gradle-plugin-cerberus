@@ -47,7 +47,7 @@ class JiraClient(url: String, trustAllCerts: Boolean = false) {
                 requestMethod = HTTP_METHOD_POST
                 doOutput = true
 
-                setRequestProperty(HEADER_AUTHORIZATION, "Basic ${getJiraBasicAuth()}")
+                setRequestProperty(HEADER_AUTHORIZATION, getJiraBasicAuth())
                 setRequestProperty(HEADER_CONTENT_TYPE, CLIENT_REQUEST_CONTENT_TYPE)
             }
 
@@ -63,6 +63,6 @@ class JiraClient(url: String, trustAllCerts: Boolean = false) {
         val jiraUsername = CerberusPlugin.properties?.jiraUsername
         val jiraPassword = CerberusPlugin.properties?.jiraPassword
 
-        return "$jiraUsername:$jiraPassword".toBase64()
+        return "Basic " + "$jiraUsername:$jiraPassword".toBase64()
     }
 }
