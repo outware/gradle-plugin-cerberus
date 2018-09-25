@@ -114,9 +114,9 @@ Some configuration parameters are populated from environment variables
 
 | Parameter            | Environment Variable             | Description                                                |
 |----------------------|----------------------------------|------------------------------------------------------------|
-| jiraDomain           | `CI_USER_JIRA_URL`               | URL to Jira instance                                       |
-| jiraUsername         | `CI_USER_JIRA_CREDENTIALS_USR`   | Username for Jira instance                                 |
-| jiraPassword         | `CI_USER_JIRA_CREDENTIALS_PSW`   | Password for Jira instance                                 |
+| jiraDomain           | `CER_JIRA_URL`               | URL to Jira instance                                       |
+| jiraUsername         | `CER_JIRA_CREDENTIALS_USR`   | Username for Jira instance                                 |
+| jiraPassword         | `CER_JIRA_CREDENTIALS_PWD`   | Password for Jira instance                                 |
 | lastSuccessfulCommit | `GIT_PREVIOUS_SUCCESSFUL_COMMIT` | The SHA-1 to use as the root commit when comparing to HEAD |
 | buildUrl             | `BUILD_URL`                      | The URL to the current build information                   |
 | buildNumber          | `BUILD_NUMBER`                   | The current build number                                   |
