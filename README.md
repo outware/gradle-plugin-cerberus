@@ -59,7 +59,7 @@ HockeyApp: [Version 2.0-RC|https://hockey.url/app/d3adcaf3]
 
 1. Add the plugin to your target project's `build.gradle`
     ```groovy
-    apply plugin: 'com.outware.omproject.cerberus'
+    apply plugin: 'au.com.outware.cerberus'
     ```
 2. Specify any configuration parameters in the Gradle DSL plugin configuration block. A typical implementation could be as follows:
     ```groovy
