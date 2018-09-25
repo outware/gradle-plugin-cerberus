@@ -2,6 +2,8 @@
 
 Konrad Biernacki, 2018
 
+[![CircleCI](https://circleci.com/gh/outware/gradle-plugin-cerberus.svg?style=svg)](https://circleci.com/gh/outware/gradle-plugin-cerberus)
+
 ## About
 
 Cerberus is a gradle plugin for extracting Jira issues from commit messages and sharing information on its respective Jenkins job and HockeyApp upload. 
