@@ -31,23 +31,23 @@ open class CerberusPluginExtension {
      * Jira instance URL. Required to access its restful API and to post comments.
      * eg. `https://jira.mydomain.com/`
      *
-     * @default environment variable `CI_USER_JIRA_URL`
+     * @default environment variable `CER_JIRA_URL`
      */
-    var jiraDomain: String? = System.getenv("CI_USER_JIRA_URL")
+    var jiraDomain: String? = System.getenv("CER_JIRA_URL")
 
     /**
      * Jira account username. Required to access its restful API and to post comments.
      *
-     * @default environment variable `CI_USER_JIRA_CREDENTIALS_USR`
+     * @default environment variable `CER_JIRA_CREDENTIALS_USR`
      */
-    var jiraUsername: String? = System.getenv("CI_USER_JIRA_CREDENTIALS_USR")
+    var jiraUsername: String? = System.getenv("CER_JIRA_CREDENTIALS_USR")
 
     /**
      * Jira account password. Required to access its restful API and to post comments.
      *
-     * @default environment variable `CI_USER_JIRA_CREDENTIALS_PSW`
+     * @default environment variable `CER_JIRA_CREDENTIALS_PWD`
      */
-    var jiraPassword: String? = System.getenv("CI_USER_JIRA_CREDENTIALS_PSW")
+    var jiraPassword: String? = System.getenv("CER_JIRA_CREDENTIALS_PWD")
 
     /**
      * Last successful Git commit. Required to fetch the  changes since the last build.
